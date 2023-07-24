@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stopwatch</title>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+        
+      }
+
+      body{
+        background-image:
+    linear-gradient(
+      to top right, 
+      rgb(39, 33, 33), #c47249
+    );
+      }
+
+      .stopwatch_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-size: 30px;
+      }
+
+      .btn {
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        top: 53%;
+        left: 43%;
+        font-size: 18px;
+        padding: 5px 5px;
+        border: none;
+        border-radius: 6px;
+      }
+
+      #start_btn {
+        margin: 10px 10px;
+        width: 55px;
+        height: 30px;
+        background-color: green;
+        border: none;
+        border-radius: 6px;
+      }
+
+      #stop_btn {
+        margin: 10px 10px;
+        width: 55px;
+        height: 30px;
+        background-color: red;
+        border: none;
+        border-radius: 6px;
+      }
+
+      #reset_btn {
+        margin: 10px 10px;
+        width: 55px;
+        height: 30px;
+        background-color: blueviolet;
+        border: none;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <span class="stopwatch_container">00 hr : 00 min : 00 sec : 00 ms</span>
+    </div>
+    <div class="btn">
+      <button id="start_btn" onclick="start()">Start</button>
+      <button id="stop_btn" onclick="stop()">Stop</button>
+      <button id="reset_btn" onclick="reset()">Reset</button>
+    </div>
+
+    <script>
+      let start_btn = document.querySelector("#start_btn");
+      let stop_btn = document.querySelector("#stop_btn");
+      let reset_btn = document.querySelector("#reset_btn");
+      let stopwatch_container = document.querySelector(".stopwatch_container");
+      let [hour, min, sec, ms] = [0, 0, 0, 0];
+
+      function stopwatch() {
+        ms++;
+        if (ms == 100) {
+          ms = 0;
+          sec++;
+
+          if (sec == 60) {
+            sec = 0;
+            min++;
+
+            if (min == 60) {
+              min = 0;
+              hour++;
+            }
+          }
+        }
+
+        let hour_string = hour < 10 ? `0${hour}` : hour;
+        let min_string = min < 10 ? `0${min}` : min;
+        let sec_string = sec < 10 ? `0${sec}` : sec;
+        let ms_string = ms < 10 ? `0${ms}` : ms;
+
+        stopwatch_container.innerHTML = `${hour_string} hr : ${min_string} min : ${sec_string} sec : ${ms_string} ms`;
+      }
+
+      let timer = null;
+
+      function start() {
+        if (timer !== null) {
+          clearInterval(timer);
+        }
+        timer = setInterval(stopwatch, 10);
+      }
+
+      function stop() {
+        clearInterval(timer);
+      }
+
+      function reset() {
+        clearInterval(timer);
+        hour=min=sec=ms=0
+        stopwatch_container.innerHTML = `00 hr : 00 min : 00 sec : 00 ms`;
+      }
+    </script>
+  </body>
+</html>
